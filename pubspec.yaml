@@ -42,6 +42,8 @@ dependencies:
   file_picker: ^8.0.3
   flutter_riverpod: ^2.5.1
   velocity_x: ^4.1.2
+  change_app_package_name: ^1.1.0
+  flutter_launcher_icons: ^0.13.1
 
 
 dev_dependencies:
@@ -54,6 +56,24 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/eyeai.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/eyeai.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/eyeai.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/eyeai.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -72,6 +92,7 @@ flutter:
      - assets/eye.txt
      - assets/model_unquant.tflite
      - assets/labels.txt
+     - assets/eyeai.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

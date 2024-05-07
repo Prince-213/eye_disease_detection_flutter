@@ -47,6 +47,7 @@ final startPredictionProvider = StateNotifierProvider.autoDispose<StartPredictio
 class StartPredictionNotifier extends StateNotifier<List<dynamic>> {
 StartPredictionNotifier(): super([0, 'label']);
 
+
 Future prediction ( String path ) async {
 
   state = [0, 'analyzing....'];
@@ -116,6 +117,19 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     }
   }
 
+  Future snapImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+
+
+    if (image != null ) {
+      String path = image.path;
+      ref.read(imagePathProvider.notifier).setPath(path);
+
+      ref.read(startPredictionProvider.notifier).prediction(ref.watch(imagePathProvider));
+    }
+  }
+
   Future loadModel() async {
 
     String? res = await Tflite.loadModel(model: 'assets/model_unquant.tflite', labels: 'assets/labels.txt', numThreads: 1, // defaults to 1
@@ -161,9 +175,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
 
               Spacer(),
-              Text(label.toString()).text.lg.bold.make().objectCenter(),
+              Text(label.toString()).text.xl.bold.capitalize.make().objectCenter(),
               Spacer(),
-              Text('Accuracy: ${(confidence * 100).toStringAsFixed(2)}%').text.bold.xl.make().objectCenter()
+              // Text('Accuracy: ${(confidence * 100).toStringAsFixed(2)}%').text.bold.xl.make().objectCenter()
             ], alignment: MainAxisAlignment.center,)).width(context.percentWidth * 70).p24.color(Colors.deepOrangeAccent.shade100).height(320).outerShadow2Xl.roundedLg.make(),
             SizedBox(height: 20,),
             ElevatedButton(onPressed: (){
@@ -174,7 +188,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
 
             ])),
             SizedBox(height: 20,),
-            ElevatedButton(onPressed: (){}, child: HStack([
+            ElevatedButton(onPressed: (){
+              snapImage();
+            }, child: HStack([
               Icon(Icons.camera_outlined),
               Text('From Camera').text.semiBold.lg.make().objectCenter(),
             ])),
